@@ -3,12 +3,13 @@ import React from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setJobs } from '../app/jobSlice';
+import Filter from '../components/filter';
 
 const JobList = () => {
   const state = useSelector((state) => state.jobSlice);
-  console.log(state.jobs);
   const dispatch = useDispatch();
 
+  // veriyi çeker ve store a aktarır
   useEffect(() => {
     axios
       .get('http://localhost:3060/jobs')
@@ -17,12 +18,13 @@ const JobList = () => {
 
   return (
     <>
-      <h3 className="job-count"> {state.jobs.length} İş BUlundu</h3>
+      <Filter />
+      <h3 className="job-count"> {state.filtredJobs.length} İş Bulundu</h3>
       <section className="list-section">
         {!state.initialized ? (
           <p>Loading....</p>
         ) : (
-          state.jobs.map((job) => (
+          state.filtredJobs.map((job) => (
             <div key={job.id} className="job-card">
               {/* kartın üst kısmı */}
               <div className="head">
